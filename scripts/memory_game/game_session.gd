@@ -10,6 +10,7 @@ const CORRECT_SOUND := preload("res://assets/memory_game/audio/correct_sound.tre
 const WRONG_SOUND := preload("res://assets/memory_game/audio/wrong_sound.tres")
 const CORRECT_PARTICLES := preload("res://assets/memory_game/particles/correct_particles.tscn")
 const WRONG_PARTICLES := preload("res://assets/memory_game/particles/wrong_particles.tscn")
+const CARD_MIN_SIZE := 96.0
 
 
 signal pair_matched(pair_id: int)
@@ -94,6 +95,8 @@ func start_game(difficulty: String, pair_pool: Array[int] = []) -> void:
 	if not _hint_controller.hint_used.is_connected(_on_hint_used):
 		_hint_controller.hint_used.connect(_on_hint_used)
 	_cards_by_index.clear()
+	if _input_navigator != null and _input_navigator.has_method("set_focused_index"):
+		_input_navigator.call("set_focused_index", -1)
 	_pending_cards.clear()
 	_wrong_guess_count = 0
 	_is_game_finished = false
@@ -112,6 +115,7 @@ func start_game(difficulty: String, pair_pool: Array[int] = []) -> void:
 		_input_navigator.call("set_cards", _cards_by_index)
 		if _input_navigator.has_method("set_game_session"):
 			_input_navigator.call("set_game_session", self)
+	_grab_initial_board_focus.call_deferred()
 
 
 func get_board_snapshot() -> Array[int]:
@@ -151,15 +155,29 @@ func _build_board_ui(board_values: Array[int], difficulty: String) -> void:
 	_board_grid.columns = grid_size.x
 
 	for index: int in range(board_values.size()):
+		var square_wrapper: AspectRatioContainer = AspectRatioContainer.new()
+		square_wrapper.ratio = 1.0
+		square_wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		square_wrapper.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		square_wrapper.custom_minimum_size = Vector2(CARD_MIN_SIZE, CARD_MIN_SIZE)
 		var card: Variant = _spawn_card()
+		if card is Control:
+			card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			card.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		card.configure(board_values[index], index)
 		if card.has_method("set_card_textures"):
 			card.set_card_textures(null, null)
 		if card.has_method("set_focus_highlighted"):
 			card.set_focus_highlighted(false)
 		card.card_selected.connect(_on_card_selected)
+		if card is Control:
+			if not card.focus_entered.is_connected(_on_card_focus_entered.bind(index)):
+				card.focus_entered.connect(_on_card_focus_entered.bind(index))
+			if not card.mouse_entered.is_connected(_on_card_mouse_entered.bind(index)):
+				card.mouse_entered.connect(_on_card_mouse_entered.bind(index))
 		_cards_by_index.append(card)
-		_board_grid.add_child(card)
+		square_wrapper.add_child(card)
+		_board_grid.add_child(square_wrapper)
 
 
 func _spawn_card() -> Variant:
@@ -241,6 +259,8 @@ func apply_focus_to_card(card: Variant) -> void:
 
 func activate_focused_card(card: Variant) -> void:
 	if card == null:
+		return
+	if card is BaseButton and card.disabled:
 		return
 	if card.has_method("trigger_select"):
 		card.trigger_select()
@@ -340,6 +360,31 @@ func _show_score_overlay(final_score: int) -> void:
 			_score_overlay.call("show_score", final_score)
 	else:
 		overlay_instance.queue_free()
+
+
+func _grab_initial_board_focus() -> void:
+	for index: int in range(_cards_by_index.size()):
+		var card: Variant = _cards_by_index[index]
+		if card is BaseButton and not card.disabled:
+			card.grab_focus()
+			apply_focus_to_card(card)
+			if _input_navigator != null and _input_navigator.has_method("set_focused_index"):
+				_input_navigator.call("set_focused_index", index)
+			return
+
+
+func _on_card_focus_entered(index: int) -> void:
+	if _input_navigator != null and _input_navigator.has_method("set_focused_index"):
+		_input_navigator.call("set_focused_index", index)
+	else:
+		apply_focus_to_card(get_card_at(index))
+
+
+func _on_card_mouse_entered(index: int) -> void:
+	var card: Variant = get_card_at(index)
+	if card is BaseButton and not card.disabled:
+		card.grab_focus()
+	_on_card_focus_entered(index)
 
 
 func _build_default_pair_pool(difficulty: String) -> Array[int]:

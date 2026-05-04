@@ -118,7 +118,7 @@
 - [X] T050 [US6] Implement game_finished(final_score: int) orchestration in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
 - [X] T051 [US6] Implement score overlay scene with value label, return button, and 5-second auto-return timer in scenes/memory_game/score_overlay.tscn and scripts/memory_game/score_overlay.gd (estimated time: 35 minutes)
 - [X] T052 [US6] Connect BoardManager.all_pairs_matched to score computation and overlay presentation in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
-- [ ] T053 [US6] Implement return-to-menu transition from score overlay in scripts/memory_game/score_overlay.gd and scripts/memory_game/main_menu.gd (estimated time: 20 minutes)
+- [X] T053 [US6] Implement return-to-menu transition from score overlay in scripts/memory_game/score_overlay.gd and scripts/memory_game/main_menu.gd (estimated time: 20 minutes)
 - [ ] T054 [US6] Add per-story static analysis pass and fix warnings in scripts/memory_game/game_session.gd and scripts/memory_game/score_overlay.gd (estimated time: 10 minutes)
 - [ ] T055 [US6] Verify story-scoped logic and UI coverage for completion and score paths in tests/memory_game/test_game_completion.gd and tests/memory_game/test_ui_hint_and_score.gd (estimated time: 15 minutes)
 
@@ -188,7 +188,7 @@
 
 - [X] T079 [US5] Implement InputNavigator._unhandled_input() and _move_focus(delta) in scripts/memory_game/input_navigator.gd (estimated time: 40 minutes)
 - [X] T080 [US5] Integrate InputNavigator with GameSession and focusable card list updates in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
-- [ ] T081 [US5] Implement focus highlight visuals for cards and menu buttons in scripts/memory_game/card.gd, scenes/memory_game/card.tscn, and scenes/memory_game/main_menu.tscn (estimated time: 30 minutes)
+- [X] T081 [US5] Implement focus highlight visuals for cards and menu buttons in scripts/memory_game/card.gd, scenes/memory_game/card.tscn, and scenes/memory_game/main_menu.tscn (estimated time: 30 minutes)
 - [ ] T082 [US5] Validate mouse, touch, keyboard, and gamepad parity flows in tests/memory_game/test_input_parity_manual.md (estimated time: 20 minutes)
 - [ ] T083 [US5] Add per-story static analysis pass and fix warnings in scripts/memory_game/input_navigator.gd and scripts/memory_game/game_session.gd (estimated time: 10 minutes)
 - [ ] T084 [US5] Verify story-scoped coverage for navigation and accept-flow logic in tests/memory_game/test_input_navigator.gd (estimated time: 15 minutes)
@@ -199,8 +199,8 @@
 
 **Purpose**: Accessibility, responsiveness, global validation, and release-ready docs.
 
-- [ ] T085 [P] Create shared UI theme with >=24px typography and accessible contrast in assets/memory_game/theme.tres and apply in scenes/memory_game/main_menu.tscn, scenes/memory_game/game_board.tscn, scenes/memory_game/score_overlay.tscn (estimated time: 30 minutes)
-- [ ] T086 [P] Implement responsive scaling and square-card constraints with GridContainer + AspectRatioContainer in scenes/memory_game/game_board.tscn (estimated time: 25 minutes)
+- [X] T085 [P] Create shared UI theme with >=24px typography and accessible contrast in assets/memory_game/theme.tres and apply in scenes/memory_game/main_menu.tscn, scenes/memory_game/game_board.tscn, scenes/memory_game/score_overlay.tscn (estimated time: 30 minutes)
+- [X] T086 [P] Implement responsive scaling and square-card constraints with GridContainer + AspectRatioContainer in scenes/memory_game/game_board.tscn (estimated time: 25 minutes)
 - [ ] T087 Add manual acceptance checklist for all spec criteria in specs/001-elderly-memory-game/checklists/acceptance.md (estimated time: 30 minutes)
 - [ ] T088 Execute full GdUnit4 suite and capture results in specs/001-elderly-memory-game/checklists/test-results.md (estimated time: 20 minutes)
 - [ ] T089 Verify 100% game-logic coverage and report in specs/001-elderly-memory-game/checklists/coverage.md (estimated time: 20 minutes)

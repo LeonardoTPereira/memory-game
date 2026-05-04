@@ -26,6 +26,8 @@ func show_score(final_score: int) -> void:
 	visible = true
 	if _score_value_label != null:
 		_score_value_label.text = str(final_score)
+	if _return_button != null:
+		_return_button.grab_focus.call_deferred()
 	if _auto_return_timer != null:
 		_auto_return_timer.start()
 

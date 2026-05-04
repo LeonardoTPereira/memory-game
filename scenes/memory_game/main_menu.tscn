@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/memory_game/main_menu.gd" id="1_main"]
+[ext_resource type="Theme" path="res://assets/memory_game/theme.tres" id="2_theme"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_main")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -32,16 +34,19 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(320, 88)
+focus_mode = 2
 text = "Easy (4x4)"
 
 [node name="MediumButton" type="Button" parent="CenterContainer/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(320, 88)
+focus_mode = 2
 text = "Medium (6x6)"
 
 [node name="HardButton" type="Button" parent="CenterContainer/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(320, 88)
+focus_mode = 2
 text = "Hard (8x8)"
