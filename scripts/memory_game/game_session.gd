@@ -3,6 +3,7 @@ extends Control
 
 
 const CardScript := preload("res://scripts/memory_game/card.gd")
+const MainMenuScene := preload("res://scenes/memory_game/main_menu.tscn")
 
 
 signal pair_matched(pair_id: int)
@@ -14,46 +15,70 @@ signal game_finished(final_score: int)
 @export var mismatch_flip_delay_seconds: float = 0.2
 
 
-var _board_manager: BoardManager = BoardManager.new()
 var _cards_by_index: Array[Variant] = []
 var _pending_cards: Array[Variant] = []
 var _wrong_guess_count: int = 0
 var _is_game_finished: bool = false
+var _difficulty: String = "easy"
+var _last_pairs_matched: int = 0
 
 
-@onready var _score_label: Label = get_node_or_null("MarginContainer/VBox/Header/ScoreLabel")
-@onready var _wrong_label: Label = get_node_or_null("MarginContainer/VBox/Header/WrongGuessesLabel")
+@onready var _board_manager: BoardManager = get_node_or_null("BoardManager")
+@onready var _input_navigator: Node = get_node_or_null("InputNavigator")
+@onready var _pair_counter_label: Label = get_node_or_null("MarginContainer/VBox/TopPanel/PairCounterLabel")
+@onready var _guess_counter_label: Label = get_node_or_null("MarginContainer/VBox/TopPanel/GuessCounterLabel")
+@onready var _hint_button: Button = get_node_or_null("MarginContainer/VBox/TopPanel/HintButton")
+@onready var _return_button: Button = get_node_or_null("MarginContainer/VBox/TopPanel/ReturnButton")
 @onready var _feedback_label: Label = get_node_or_null("MarginContainer/VBox/FeedbackLabel")
 @onready var _board_grid: GridContainer = get_node_or_null("MarginContainer/VBox/BoardGrid")
 
 
 func _ready() -> void:
+	if _board_manager == null:
+		push_error("GameSession: BoardManager node not found")
+		return
 	if not _board_manager.pair_matched.is_connected(_on_pair_matched):
 		_board_manager.pair_matched.connect(_on_pair_matched)
-	if not _board_manager.wrong_guess.is_connected(_on_wrong_guess):
-		_board_manager.wrong_guess.connect(_on_wrong_guess)
+	if not _board_manager.wrong_guess_made.is_connected(_on_wrong_guess):
+		_board_manager.wrong_guess_made.connect(_on_wrong_guess)
 	if not _board_manager.game_finished.is_connected(_on_game_finished):
 		_board_manager.game_finished.connect(_on_game_finished)
+	if _return_button != null and not _return_button.pressed.is_connected(_on_return_pressed):
+		_return_button.pressed.connect(_on_return_pressed)
+	if _hint_button != null:
+		_hint_button.disabled = true
 	_update_ui()
 
 
 func configure_rng_seed(seed_value: int) -> void:
-	_board_manager.configure_rng_seed(seed_value)
+	if _board_manager != null:
+		_board_manager.configure_rng_seed(seed_value)
 
 
 func set_mismatch_flip_delay_seconds(delay_seconds: float) -> void:
 	mismatch_flip_delay_seconds = max(0.0, delay_seconds)
 
 
-func start_game(difficulty: String, pair_pool: Array[int]) -> void:
+func start_game(difficulty: String, pair_pool: Array[int] = []) -> void:
+	_difficulty = difficulty
+	var effective_pair_pool: Array[int] = pair_pool
+	if effective_pair_pool.is_empty():
+		effective_pair_pool = _build_default_pair_pool(difficulty)
 	var board_values: Array[int] = _board_manager.setup_game(difficulty, pair_pool)
+	if board_values.is_empty():
+		board_values = _board_manager.setup_game(difficulty, effective_pair_pool)
 	_cards_by_index.clear()
 	_pending_cards.clear()
 	_wrong_guess_count = 0
 	_is_game_finished = false
+	_last_pairs_matched = 0
 	_build_board_ui(board_values, difficulty)
 	_set_feedback_text("")
 	_update_ui()
+	if _input_navigator != null and _input_navigator.has_method("set_cards"):
+		_input_navigator.call("set_cards", _cards_by_index)
+		if _input_navigator.has_method("set_game_session"):
+			_input_navigator.call("set_game_session", self)
 
 
 func get_board_snapshot() -> Array[int]:
@@ -73,9 +98,9 @@ func get_feedback_text() -> String:
 
 
 func get_score_label_text() -> String:
-	if _score_label == null:
+	if _pair_counter_label == null:
 		return ""
-	return _score_label.text
+	return _pair_counter_label.text
 
 
 func is_game_finished() -> bool:
@@ -95,6 +120,10 @@ func _build_board_ui(board_values: Array[int], difficulty: String) -> void:
 	for index: int in range(board_values.size()):
 		var card: Variant = _spawn_card()
 		card.configure(board_values[index], index)
+		if card.has_method("set_card_textures"):
+			card.set_card_textures(null, null)
+		if card.has_method("set_focus_highlighted"):
+			card.set_focus_highlighted(false)
 		card.card_selected.connect(_on_card_selected)
 		_cards_by_index.append(card)
 		_board_grid.add_child(card)
@@ -126,6 +155,7 @@ func _on_pair_matched(pair_id: int) -> void:
 		if card.pair_id == pair_id:
 			card.set_matched()
 	_pending_cards.clear()
+	_last_pairs_matched = _board_manager.get_pairs_matched()
 	_set_feedback_text("CORRETO")
 	_update_ui()
 	pair_matched.emit(pair_id)
@@ -142,7 +172,8 @@ func _on_wrong_guess() -> void:
 func _on_game_finished(final_score: int) -> void:
 	_is_game_finished = true
 	_set_feedback_text("FINAL")
-	_update_score_label(final_score)
+	if _pair_counter_label != null:
+		_pair_counter_label.text = "Pairs: %d (final score: %d)" % [_board_manager.get_pairs_matched(), final_score]
 	game_finished.emit(final_score)
 
 
@@ -161,12 +192,35 @@ func _set_feedback_text(value: String) -> void:
 
 
 func _update_ui() -> void:
-	var score: int = ScoreCalculator.calculate(_board_manager.get_pairs_matched(), _board_manager.get_guesses())
-	_update_score_label(score)
-	if _wrong_label != null:
-		_wrong_label.text = "Wrong: %d" % _wrong_guess_count
+	if _pair_counter_label != null:
+		_pair_counter_label.text = "Pairs: %d" % _board_manager.get_pairs_matched()
+	if _guess_counter_label != null:
+		_guess_counter_label.text = "Guesses: %d" % _board_manager.get_guesses()
 
 
-func _update_score_label(score: int) -> void:
-	if _score_label != null:
-		_score_label.text = "Score: %d" % score
+func apply_focus_to_card(card: Variant) -> void:
+	for current: Variant in _cards_by_index:
+		if current != null and current.has_method("set_focus_highlighted"):
+			current.set_focus_highlighted(current == card)
+
+
+func activate_focused_card(card: Variant) -> void:
+	if card == null:
+		return
+	if card.has_method("trigger_select"):
+		card.trigger_select()
+
+
+func _on_return_pressed() -> void:
+	var menu: Node = MainMenuScene.instantiate()
+	get_tree().root.add_child(menu)
+	queue_free()
+
+
+func _build_default_pair_pool(difficulty: String) -> Array[int]:
+	var grid: Vector2i = _board_manager.get_grid_size(difficulty)
+	var pair_count: int = (grid.x * grid.y) >> 1
+	var values: Array[int] = []
+	for pair_id: int in range(1, pair_count + 1):
+		values.append(pair_id)
+	return values

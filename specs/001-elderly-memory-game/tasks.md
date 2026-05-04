@@ -39,7 +39,7 @@
 - [X] T015 Create hint controller class skeleton in scripts/memory_game/hint_controller.gd (estimated time: 10 minutes)
 - [ ] T016 Create card node class skeleton in scripts/memory_game/card.gd (estimated time: 10 minutes)
 - [X] T017 Create game session orchestrator skeleton in scripts/memory_game/game_session.gd (estimated time: 10 minutes)
-- [ ] T018 Create input navigation skeleton in scripts/memory_game/input_navigator.gd (estimated time: 10 minutes)
+- [X] T018 Create input navigation skeleton in scripts/memory_game/input_navigator.gd (estimated time: 10 minutes)
 - [ ] T019 Create UI page object skeletons in tests/memory_game/page_objects/po_hint_button.gd and tests/memory_game/page_objects/po_score_overlay.gd (estimated time: 15 minutes)
 - [X] T020 Create baseline scene stubs in scenes/memory_game/main_menu.tscn, scenes/memory_game/game_board.tscn, scenes/memory_game/card.tscn, scenes/memory_game/score_overlay.tscn (estimated time: 25 minutes)
 
@@ -65,8 +65,8 @@
 - [ ] T025 [US1] Implement CardPool.sample_pairs(count, rng) with typed distinct selection in scripts/memory_game/card_pool.gd (estimated time: 30 minutes)
 - [ ] T026 [US1] Implement CardPool.validate() for unique ids and non-null textures in scripts/memory_game/card_pool.gd (estimated time: 15 minutes)
 - [ ] T027 [US1] Implement board setup flow and difficulty preset application in scripts/memory_game/board_manager.gd (estimated time: 40 minutes)
-- [ ] T028 [US1] Implement menu difficulty selection signal emission and scene transition in scenes/memory_game/main_menu.tscn and scripts/memory_game/main_menu.gd (estimated time: 30 minutes)
-- [ ] T029 [US1] Build game board layout containers and typed node bindings in scenes/memory_game/game_board.tscn (estimated time: 25 minutes)
+- [X] T028 [US1] Implement menu difficulty selection signal emission and scene transition in scenes/memory_game/main_menu.tscn and scripts/memory_game/main_menu.gd (estimated time: 30 minutes)
+- [X] T029 [US1] Build game board layout containers and typed node bindings in scenes/memory_game/game_board.tscn (estimated time: 25 minutes)
 - [ ] T030 [US1] Wire GameSession.start(preset) to BoardManager.setup(preset, grid) in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
 - [ ] T031 [US1] Add per-story static analysis pass and fix warnings in scripts/memory_game/card_pool.gd, scripts/memory_game/board_manager.gd, scripts/memory_game/game_session.gd, scripts/memory_game/main_menu.gd (estimated time: 15 minutes)
 - [ ] T032 [US1] Verify story-scoped logic coverage for CardPool and board setup tests in tests/memory_game/test_card_pool.gd and tests/memory_game/test_board_setup.gd (estimated time: 15 minutes)
@@ -186,8 +186,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T079 [US5] Implement InputNavigator._unhandled_input() and _move_focus(delta) in scripts/memory_game/input_navigator.gd (estimated time: 40 minutes)
-- [ ] T080 [US5] Integrate InputNavigator with GameSession and focusable card list updates in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
+- [X] T079 [US5] Implement InputNavigator._unhandled_input() and _move_focus(delta) in scripts/memory_game/input_navigator.gd (estimated time: 40 minutes)
+- [X] T080 [US5] Integrate InputNavigator with GameSession and focusable card list updates in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
 - [ ] T081 [US5] Implement focus highlight visuals for cards and menu buttons in scripts/memory_game/card.gd, scenes/memory_game/card.tscn, and scenes/memory_game/main_menu.tscn (estimated time: 30 minutes)
 - [ ] T082 [US5] Validate mouse, touch, keyboard, and gamepad parity flows in tests/memory_game/test_input_parity_manual.md (estimated time: 20 minutes)
 - [ ] T083 [US5] Add per-story static analysis pass and fix warnings in scripts/memory_game/input_navigator.gd and scripts/memory_game/game_session.gd (estimated time: 10 minutes)

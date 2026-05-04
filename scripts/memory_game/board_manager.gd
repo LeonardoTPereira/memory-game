@@ -1,9 +1,10 @@
 class_name BoardManager
-extends RefCounted
+extends Node
 
 
 signal pair_matched(pair_id: int)
 signal wrong_guess
+signal wrong_guess_made
 signal game_finished(final_score: int)
 
 
@@ -124,6 +125,7 @@ func _evaluate_selected_pair() -> void:
 			var final_score: int = ScoreCalculator.calculate(_pairs_matched, _guesses)
 			game_finished.emit(final_score)
 	else:
+		wrong_guess_made.emit()
 		wrong_guess.emit()
 
 	_flipped_indices.clear()

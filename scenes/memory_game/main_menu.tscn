@@ -25,10 +25,23 @@ theme_override_constants/separation = 24
 
 [node name="Title" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
-text = "Memory Game"
+text = "Memory Game - Choose Difficulty"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="CenterContainer/VBox"]
+[node name="EasyButton" type="Button" parent="CenterContainer/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Start"
+custom_minimum_size = Vector2(320, 88)
+text = "Easy (4x4)"
+
+[node name="MediumButton" type="Button" parent="CenterContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(320, 88)
+text = "Medium (6x6)"
+
+[node name="HardButton" type="Button" parent="CenterContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(320, 88)
+text = "Hard (8x8)"
