@@ -31,7 +31,16 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Composition-First Node Architecture**: Document how node behaviors are composed,
+  where inheritance is used, and why composition-first was preserved.
+- **Signal-Driven Decoupling**: Identify signal contracts, payload typing, and coupling
+  boundaries; justify any direct cross-component calls.
+- **Static Typing and SOLID Design**: Confirm static typing strategy and SOLID
+  application for all modified gameplay scripts.
+- **Testing and Coverage Enforcement**: Define failing tests first, show plan for 100%
+  game-logic coverage, and list required Page Object updates for UI changes.
+- **Static Analysis and Runtime Quality Gates**: Define static-analysis gates,
+  diagnostics/logging, and any feature-specific runtime quality thresholds.
 
 ## Project Structure
 

@@ -90,6 +90,19 @@
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
 
+### Constitution Alignment *(mandatory)*
+
+- **CA-001 Composition-First Architecture**: Define component boundaries, composition
+  strategy, and any justified inheritance use.
+- **CA-002 Signal-Driven Decoupling**: Define required signal contracts and where
+  communication MUST use signals instead of direct coupling.
+- **CA-003 Static Typing and SOLID**: Define how static typing and SOLID principles are
+  enforced for all modified gameplay scripts.
+- **CA-004 Test and Coverage Enforcement**: Identify test-first scope, 100%
+  game-logic coverage expectations, and required Page Object UI tests.
+- **CA-005 Analysis and Quality Gates**: Define static-analysis requirements and
+  runtime diagnostics/quality gates required for this feature.
+
 *Example of marking unclear requirements:*
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]

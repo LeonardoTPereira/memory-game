@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Universal
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.log
+.env*
+.vscode/
+.idea/
+
+# Local generated artifacts
+.tmp/
+.godot_backup_for_reset/
+reports/
