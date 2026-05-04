@@ -108,6 +108,24 @@ func is_game_finished() -> bool:
 	return _is_game_finished
 
 
+func get_unmatched_pairs() -> Array:
+	var by_pair: Dictionary = {}
+	for index: int in range(_board.size()):
+		if _matched_indices.has(index):
+			continue
+		var pair_id: int = _board[index]
+		if not by_pair.has(pair_id):
+			by_pair[pair_id] = []
+		var indices: Array = by_pair[pair_id]
+		indices.append(index)
+
+	var result: Array = []
+	for value: Variant in by_pair.values():
+		if value is Array and value.size() >= 2:
+			result.append([int(value[0]), int(value[1])])
+	return result
+
+
 func _evaluate_selected_pair() -> void:
 	var first_index: int = _flipped_indices[0]
 	var second_index: int = _flipped_indices[1]

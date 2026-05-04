@@ -17,11 +17,13 @@ var board_index: int = -1
 var face_state: FaceState = FaceState.FACE_DOWN
 var _front_texture: Texture2D
 var _back_texture: Texture2D
+var _hint_tween: Tween
 
 
 @onready var _front_face: TextureRect = get_node_or_null("FrontFace")
 @onready var _back_face: TextureRect = get_node_or_null("BackFace")
 @onready var _focus_highlight: ColorRect = get_node_or_null("FocusHighlight")
+@onready var _hint_highlight: ColorRect = get_node_or_null("HintHighlight")
 
 
 func _ready() -> void:
@@ -29,6 +31,8 @@ func _ready() -> void:
 		pressed.connect(_on_pressed)
 	if _focus_highlight != null:
 		_focus_highlight.visible = false
+	if _hint_highlight != null:
+		_hint_highlight.visible = false
 	flip_face_down()
 
 
@@ -54,6 +58,24 @@ func set_card_textures(front_texture: Texture2D, back_texture: Texture2D) -> voi
 func set_focus_highlighted(enabled: bool) -> void:
 	if _focus_highlight != null:
 		_focus_highlight.visible = enabled
+
+
+func show_hint_highlight(duration_seconds: float = 1.2) -> void:
+	if _hint_highlight == null:
+		return
+	if _hint_tween != null:
+		_hint_tween.kill()
+	_hint_highlight.visible = true
+	_hint_highlight.modulate = Color(1.0, 1.0, 0.2, 0.25)
+	_hint_tween = create_tween()
+	_hint_tween.tween_property(_hint_highlight, "modulate:a", 0.95, 0.15)
+	_hint_tween.tween_property(_hint_highlight, "modulate:a", 0.25, 0.15)
+	_hint_tween.tween_property(_hint_highlight, "modulate:a", 0.95, 0.15)
+	_hint_tween.tween_property(_hint_highlight, "modulate:a", 0.25, max(0.3, duration_seconds - 0.45))
+	_hint_tween.tween_callback(func() -> void:
+		if _hint_highlight != null:
+			_hint_highlight.visible = false
+	)
 
 
 func trigger_select() -> void:

@@ -19,6 +19,10 @@ script = ExtResource("2_board_manager")
 [node name="InputNavigator" type="Node" parent="."]
 script = ExtResource("3_input_nav")
 
+[node name="FeedbackFX" type="Node2D" parent="."]
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15

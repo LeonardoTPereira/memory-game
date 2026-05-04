@@ -21,7 +21,7 @@
 - [ ] T004 [P] Add headless test command documentation and coverage gate notes in specs/001-elderly-memory-game/quickstart.md (estimated time: 10 minutes)
 - [X] T005 Create 50 placeholder card front assets card_001.png to card_050.png in assets/memory_game/card_fronts/ (estimated time: 45 minutes)
 - [ ] T006 Create placeholder feedback assets correct.ogg and wrong.ogg in assets/memory_game/audio/ (estimated time: 15 minutes)
-- [ ] T007 Create placeholder particle scenes in assets/memory_game/particles/correct_particles.tscn and assets/memory_game/particles/wrong_particles.tscn (estimated time: 15 minutes)
+- [X] T007 Create placeholder particle scenes in assets/memory_game/particles/correct_particles.tscn and assets/memory_game/particles/wrong_particles.tscn (estimated time: 15 minutes)
 - [ ] T008 Create typed resource scripts scripts/memory_game/card_data.gd and scripts/memory_game/difficulty_preset.gd (estimated time: 20 minutes)
 - [ ] T009 Create difficulty preset resources assets/memory_game/presets/easy.tres, assets/memory_game/presets/medium.tres, assets/memory_game/presets/hard.tres (estimated time: 20 minutes)
 - [X] T010 Define Input Map actions ui_left, ui_right, ui_up, ui_down, ui_accept with keyboard, mouse, touch, and gamepad defaults in project.godot (estimated time: 15 minutes)
@@ -115,9 +115,9 @@
 
 ### Implementation for User Story 6
 
-- [ ] T050 [US6] Implement game_finished(final_score: int) orchestration in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
-- [ ] T051 [US6] Implement score overlay scene with value label, return button, and 5-second auto-return timer in scenes/memory_game/score_overlay.tscn and scripts/memory_game/score_overlay.gd (estimated time: 35 minutes)
-- [ ] T052 [US6] Connect BoardManager.all_pairs_matched to score computation and overlay presentation in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
+- [X] T050 [US6] Implement game_finished(final_score: int) orchestration in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
+- [X] T051 [US6] Implement score overlay scene with value label, return button, and 5-second auto-return timer in scenes/memory_game/score_overlay.tscn and scripts/memory_game/score_overlay.gd (estimated time: 35 minutes)
+- [X] T052 [US6] Connect BoardManager.all_pairs_matched to score computation and overlay presentation in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
 - [ ] T053 [US6] Implement return-to-menu transition from score overlay in scripts/memory_game/score_overlay.gd and scripts/memory_game/main_menu.gd (estimated time: 20 minutes)
 - [ ] T054 [US6] Add per-story static analysis pass and fix warnings in scripts/memory_game/game_session.gd and scripts/memory_game/score_overlay.gd (estimated time: 10 minutes)
 - [ ] T055 [US6] Verify story-scoped logic and UI coverage for completion and score paths in tests/memory_game/test_game_completion.gd and tests/memory_game/test_ui_hint_and_score.gd (estimated time: 15 minutes)
@@ -138,9 +138,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T059 [US3] Add feedback layer nodes and bindings in scenes/memory_game/game_board.tscn (estimated time: 20 minutes)
-- [ ] T060 [US3] Implement correct feedback pipeline (green particles, correct sound, CORRETO text) in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
-- [ ] T061 [US3] Implement wrong feedback pipeline (red particles, wrong sound, ERRADO text, clear timer) in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
+- [X] T059 [US3] Add feedback layer nodes and bindings in scenes/memory_game/game_board.tscn (estimated time: 20 minutes)
+- [X] T060 [US3] Implement correct feedback pipeline (green particles, correct sound, CORRETO text) in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
+- [X] T061 [US3] Implement wrong feedback pipeline (red particles, wrong sound, ERRADO text, clear timer) in scripts/memory_game/game_session.gd (estimated time: 25 minutes)
 - [ ] T062 [US3] Enforce temporary input lock while feedback is active in scripts/memory_game/board_manager.gd and scripts/memory_game/game_session.gd (estimated time: 20 minutes)
 - [ ] T063 [US3] Add per-story static analysis pass and fix warnings in scripts/memory_game/game_session.gd and scripts/memory_game/board_manager.gd (estimated time: 10 minutes)
 - [ ] T064 [US3] Verify story-scoped coverage for feedback branch logic in tests/memory_game/test_feedback_flow.gd (estimated time: 15 minutes)
@@ -163,10 +163,10 @@
 ### Implementation for User Story 4
 
 - [X] T069 [US4] Implement HintController counter tracking, eligibility signal, and request_hint() in scripts/memory_game/hint_controller.gd (estimated time: 30 minutes)
-- [ ] T070 [US4] Connect wrong_guess_made and hint button pressed flows in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
-- [ ] T071 [US4] Implement BoardManager.get_unmatched_pairs() and random pair selection for hints in scripts/memory_game/board_manager.gd (estimated time: 25 minutes)
-- [ ] T072 [US4] Implement card hint highlight style and timeout reset distinct from focus state in scripts/memory_game/card.gd and scenes/memory_game/card.tscn (estimated time: 30 minutes)
-- [ ] T073 [US4] Add hint button UI state transitions in scenes/memory_game/game_board.tscn (estimated time: 15 minutes)
+- [X] T070 [US4] Connect wrong_guess_made and hint button pressed flows in scripts/memory_game/game_session.gd (estimated time: 20 minutes)
+- [X] T071 [US4] Implement BoardManager.get_unmatched_pairs() and random pair selection for hints in scripts/memory_game/board_manager.gd (estimated time: 25 minutes)
+- [X] T072 [US4] Implement card hint highlight style and timeout reset distinct from focus state in scripts/memory_game/card.gd and scenes/memory_game/card.tscn (estimated time: 30 minutes)
+- [X] T073 [US4] Add hint button UI state transitions in scenes/memory_game/game_board.tscn (estimated time: 15 minutes)
 - [ ] T074 [US4] Add per-story static analysis pass and fix warnings in scripts/memory_game/hint_controller.gd, scripts/memory_game/game_session.gd, scripts/memory_game/card.gd (estimated time: 10 minutes)
 - [ ] T075 [US4] Verify story-scoped coverage for hint threshold and reset branches in tests/memory_game/test_hint_controller.gd and tests/memory_game/test_hint_integration.gd (estimated time: 15 minutes)
 
